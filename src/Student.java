@@ -4,8 +4,9 @@ import java.util.HashMap;
 
 public class Student {
 	
-	HashMap<String, ArrayList<String>> otherStudents;
+	//HashMap<String, ArrayList<String>> otherStudents;
 	ArrayList<String> studentList;
+	
 	String name;
 
 	public Student(String name, ArrayList<String> inputList) {
@@ -23,6 +24,10 @@ public class Student {
 	
 	public String getName() {
 		return this.name;
+	}
+	
+	public ArrayList<String> getPossibleStudents() {
+		return studentList;
 	}
 
 }
