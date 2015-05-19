@@ -45,7 +45,7 @@ public class Tester {
 						Student nextStudent = findNextStudent(previousStudent, students);
 						if (c != 0) { //someone to the left as well
 							Student left = classroom[r][c-1];
-							while (!InArrayList(left, nextStudent, students)) {
+							while (!inArrayList(left, nextStudent, students)) {
 								nextStudent = findNextStudent(previousStudent, students);
 							}
 							classroom[r][c] = nextStudent; //remove nextStudent from previousStudent's and left's arrayList
@@ -64,7 +64,7 @@ public class Tester {
 		}
 	}
 
-	private static boolean InArrayList(Student left, Student nextStudent, ArrayList<Student> students) {
+	private static boolean inArrayList(Student left, Student nextStudent, ArrayList<Student> students) {
 		ArrayList<String> otherStudents = left.getPossibleStudents();
 		for (Student s : students) {
 			if (s.getName().equals(nextStudent)) {
