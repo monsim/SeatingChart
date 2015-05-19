@@ -22,11 +22,29 @@ public class Tester {
 		int rows = Integer.parseInt(numRows);
 		int cols = Integer.parseInt(numCols);
 		
-		generateChart(rows, cols, students);
+		Student[][] classroom = generateChart(rows, cols, students);
+		
+		for (int r = 0; r < classroom[0].length; r++) {
+			for (int c = 0; c < classroom.length; c++) {
+				System.out.print(classroom[r][c].getName() + "     ");
+			}
+			System.out.println();
+		}
+		
+		String again = JOptionPane.showInputDialog("Do you want to generate another seating chart? (Y/N)");
+		String same = JOptionPane.showInputDialog("Using the same students? (Y/N)");
+		
+		if (again.equals("Y") && same.equals("Y")) {
+			generateChartAgain(rows,cols,students, classroom);
+		}
 
 	}
 
-	private static void generateChart(int rows, int cols, ArrayList<Student> students) {
+	private static void generateChartAgain(int rows, int cols, ArrayList<Student> students, Student[][] classroom) {
+		
+	}
+
+	private static Student[][] generateChart(int rows, int cols, ArrayList<Student> students) {
 		int firstStudentIndex = (int)Math.random()*(students.size());
 		Student firstStudent = students.get(firstStudentIndex);
 		Student[][] classroom = new Student[rows][cols];
@@ -40,7 +58,6 @@ public class Tester {
 					
 					if (r != 0) {
 						//someone above 
-						//INCREMENT COUNTER SOMEWHERE
 						previousStudent = classroom[r-1][c];
 						Student nextStudent = findNextStudent(previousStudent, students);
 						if (c != 0) { //someone to the left as well
@@ -62,7 +79,9 @@ public class Tester {
 				}
 			}
 		}
+		return classroom;
 	}
+	
 
 	private static boolean inArrayList(Student left, Student nextStudent, ArrayList<Student> students) {
 		ArrayList<String> otherStudents = left.getPossibleStudents();
