@@ -33,5 +33,9 @@ public class Student {
 	public String toString() {
 		return name;
 	}
+	
+	public void removeStudent(String student) {
+		studentList.remove(student);
+	}
 
 }

@@ -71,16 +71,21 @@ public class Tester {
 		int firstStudentIndex = 0;
 		Student firstStudent = null;
 		Student[][] classroom = new Student[rows][cols];
-		int counter = 0; //what's the point of counter again
+		ArrayList<Student> studentCounter = new ArrayList<Student>();
+		for (int i = 0; i < students.size(); i++) {
+			studentCounter.add(students.get(i));
+		}		
 		Student previousStudent = null;
 		Student nextStudent = null;
-		while (counter < students.size() - 1) {
+		while (studentCounter.size() > 0) {										//WHAT DO WE DO IF THERES NO STUDENT IN COMMMON
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < cols; c++) {	//[0][0] has already been set					
 					if (r == 0 && c == 0) {
 						firstStudentIndex = (int)Math.random()*(students.size());
 						firstStudent = students.get(firstStudentIndex);
 						classroom[0][0] = firstStudent; 
+						studentCounter.remove(nextStudent);
+						removeFromAllStudents(nextStudent, students);
 					} else {
 						if (r != 0) {
 							//someone above 
@@ -101,11 +106,15 @@ public class Tester {
 									nextStudent = findNextStudent(previousStudent, students);
 								}
 								classroom[r][c] = nextStudent; //remove nextStudent from previousStudent's and left's arrayList
+								studentCounter.remove(nextStudent);
+								removeFromAllStudents(nextStudent, students);
 							}
 							if (c == 0) {
 								previousStudent = classroom[r-1][c];
 								nextStudent = findNextStudent(previousStudent, students);
 								classroom[r][c] = nextStudent;
+								studentCounter.remove(nextStudent);
+								removeFromAllStudents(nextStudent, students);
 							}
 						}		
 					
@@ -115,9 +124,10 @@ public class Tester {
 							//System.out.println(previousStudent.getName());
 							nextStudent = findNextStudent(previousStudent, students);
 							classroom[r][c] = nextStudent; //remove nextStudent from previousStudent's arrayList
+							studentCounter.remove(nextStudent);
+							removeFromAllStudents(nextStudent, students);
 						}
 					}
-					counter++;
 				}
 			}
 		}
@@ -125,6 +135,15 @@ public class Tester {
 		return classroom;
 	}
 	
+	private static void removeFromAllStudents(Student nextStudent, ArrayList<Student> students) {
+		System.out.println(nextStudent.getName());
+		String name = nextStudent.getName();
+		for (Student s : students) {
+
+			s.removeStudent(name);
+		}
+	}
+
 	public static void displayClassroom(Student[][] grid) {
 		for (int r = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[0].length; c++) {
