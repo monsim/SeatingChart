@@ -19,7 +19,7 @@ public class Student {
 		studentList = temp;
 		this.name = name;
 		
-		System.out.println(name + " " + studentList.toString());
+		//System.out.println(name + " " + studentList.toString());
 	}
 	
 	public String getName() {
@@ -28,6 +28,10 @@ public class Student {
 	
 	public ArrayList<String> getPossibleStudents() {
 		return studentList;
+	}
+	
+	public String toString() {
+		return name;
 	}
 
 }

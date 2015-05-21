@@ -23,8 +23,8 @@ public class Tester {
 		
 		Student[][] classroom = generateChart(rows, cols, students);
 		
-		for (int r = 0; r < classroom[0].length; r++) {
-			for (int c = 0; c < classroom.length; c++) {
+		for (int r = 0; r < classroom.length; r++) {
+			for (int c = 0; c < classroom[0].length; c++) {
 				Student student = classroom[r][c];
 				//System.out.print(student.getName() + "    ");
 				//System.out.println(classroom.length);
@@ -53,8 +53,8 @@ public class Tester {
 			
 			Student[][] classroom1 = generateChart(rows1, cols1, students1);
 			
-			for (int r = 0; r < classroom[0].length; r++) {
-				for (int c = 0; c < classroom.length; c++) {
+			for (int r = 0; r < classroom.length; r++) {
+				for (int c = 0; c < classroom[0].length; c++) {
 					System.out.print(classroom[r][c].getName() + "\t");
 				}
 				System.out.println();
@@ -73,6 +73,7 @@ public class Tester {
 		Student[][] classroom = new Student[rows][cols];
 		int counter = 0; //what's the point of counter again
 		Student previousStudent = null;
+		Student nextStudent = null;
 		while (counter < students.size() - 1) {
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < cols; c++) {	//[0][0] has already been set					
@@ -85,23 +86,34 @@ public class Tester {
 							//someone above 
 							previousStudent = classroom[r-1][c];
 							//System.out.println(previousStudent.getName());
-							Student nextStudent = findNextStudent(previousStudent, students);
+							nextStudent = findNextStudent(previousStudent, students);
 							//System.out.println(nextStudent.getName());
 							if (c != 0) { //someone to the left as well
 								Student left = classroom[r][c-1];
+								
+							
+								
 								//System.out.println(left.getName());
+								
+								//System.out.println("r: " + r + " c-1: " + (c-1));
+								
 								while (!inArrayList(left, nextStudent, students)) {
 									nextStudent = findNextStudent(previousStudent, students);
 								}
 								classroom[r][c] = nextStudent; //remove nextStudent from previousStudent's and left's arrayList
+							}
+							if (c == 0) {
+								previousStudent = classroom[r-1][c];
+								nextStudent = findNextStudent(previousStudent, students);
+								classroom[r][c] = nextStudent;
 							}
 						}		
 					
 						if (r == 0) {
 							//below hasn't been initialized, it doesn't matter. only one that matters is to the left
 							previousStudent = classroom[r][c-1];
-							System.out.println(previousStudent.getName());
-							Student nextStudent = findNextStudent(previousStudent, students);
+							//System.out.println(previousStudent.getName());
+							nextStudent = findNextStudent(previousStudent, students);
 							classroom[r][c] = nextStudent; //remove nextStudent from previousStudent's arrayList
 						}
 					}
@@ -109,14 +121,25 @@ public class Tester {
 				}
 			}
 		}
+		displayClassroom(classroom);
 		return classroom;
+	}
+	
+	public static void displayClassroom(Student[][] grid) {
+		for (int r = 0; r < grid.length; r++) {
+			for (int c = 0; c < grid[0].length; c++) {
+				System.out.print(grid[r][c] + " ; row = " + r + "; c = " + c);
+			}
+			System.out.println();
+		}
 	}
 	
 
 	private static boolean inArrayList(Student left, Student nextStudent, ArrayList<Student> students) {
+		//System.out.println(left.getName());
 		ArrayList<String> otherStudents = left.getPossibleStudents();
-		for (Student s : students) {
-			if (s.getName().equals(nextStudent)) {
+		for (String s : otherStudents) {
+			if (s.equals(nextStudent.getName())) {
 				return true;
 			}
 		}
