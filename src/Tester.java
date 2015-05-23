@@ -12,21 +12,20 @@ public class Tester {
 		
 		
 		ArrayList<String> studentList = new ArrayList<String>();
-		//String fileName = JOptionPane.showInputDialog("What is the file name of the students?");
+		String fileName = JOptionPane.showInputDialog("What is the file name of the students?");
 
-		String fileName = "C:\\Users\\Gauri\\Desktop\\names.txt";
+		
 
 		loadDataFromFile(fileName, studentList);
 		
 		ArrayList<Student> students = convertToStudents(studentList);
 		
-//		String numRows = JOptionPane.showInputDialog("How many rows do you want?");
-//		String numCols = JOptionPane.showInputDialog("How many columns do you want?");
-//		int rows = Integer.parseInt(numRows);
-//		int cols = Integer.parseInt(numCols);
+		String numRows = JOptionPane.showInputDialog("How many rows do you want?");
+		String numCols = JOptionPane.showInputDialog("How many columns do you want?");
+		int rows = Integer.parseInt(numRows);
+		int cols = Integer.parseInt(numCols);
 		
-		int rows = 3;
-		int cols = 2;
+		
 		Student[][] classroom = generateChart(rows, cols, students);
 		
 		for (int r = 0; r < classroom.length; r++) {
@@ -39,33 +38,33 @@ public class Tester {
 			System.out.println();
 		}
 		
-//		String again = JOptionPane.showInputDialog("Do you want to generate another seating chart? (Y/N)");
-//		String same = JOptionPane.showInputDialog("Using the same students? (Y/N)");
-//		
-//		if (again.equals("Y") && same.equals("Y")) {
-//			generateChartAgain(rows,cols,students, classroom);
-//		}
-//		
-//		if (again.equals("Y") && same.equals("N")) {  //think of a better way to do this
-//			String fileName1 = JOptionPane.showInputDialog("What is the file name of the students?");
-//			loadDataFromFile(fileName, studentList);
-//			
-//			ArrayList<Student> students1 = convertToStudents(studentList);
-//			
-//			String numRows1 = JOptionPane.showInputDialog("How many rows do you want?");
-//			String numCols1 = JOptionPane.showInputDialog("How many columns do you want?");
-//			int rows1 = Integer.parseInt(numRows);
-//			int cols1 = Integer.parseInt(numCols);
-//			
-//			Student[][] classroom1 = generateChart(rows1, cols1, students1);
-//			
-//			for (int r = 0; r < classroom.length; r++) {
-//				for (int c = 0; c < classroom[0].length; c++) {
-//					System.out.print(classroom[r][c].getName() + "\t");
-//				}
-//				System.out.println();
-//			}
-//		}
+		String again = JOptionPane.showInputDialog("Do you want to generate another seating chart? (Y/N)");
+		String same = JOptionPane.showInputDialog("Using the same students? (Y/N)");
+		
+		if (again.equals("Y") && same.equals("Y")) {
+			generateChartAgain(rows,cols,students, classroom);
+		}
+		
+		if (again.equals("Y") && same.equals("N")) {  //think of a better way to do this
+			String fileName1 = JOptionPane.showInputDialog("What is the file name of the students?");
+			loadDataFromFile(fileName, studentList);
+			
+			ArrayList<Student> students1 = convertToStudents(studentList);
+			
+			String numRows1 = JOptionPane.showInputDialog("How many rows do you want?");
+			String numCols1 = JOptionPane.showInputDialog("How many columns do you want?");
+			int rows1 = Integer.parseInt(numRows);
+			int cols1 = Integer.parseInt(numCols);
+			
+			Student[][] classroom1 = generateChart(rows1, cols1, students1);
+			
+			for (int r = 0; r < classroom.length; r++) {
+				for (int c = 0; c < classroom[0].length; c++) {
+					System.out.print(classroom[r][c].getName() + "\t");
+				}
+				System.out.println();
+			}
+		}
 
 	}
 
@@ -84,7 +83,7 @@ public class Tester {
 		}		
 		Student previousStudent = null;
 		Student nextStudent = null;
-		while (studentCounter.size() > 0) {										//WHAT DO WE DO IF THERES NO STUDENT IN COMMMON
+												//WHAT DO WE DO IF THERES NO STUDENT IN COMMMON
 			for (int r = 0; r < rows; r++) {
 				for (int c = 0; c < cols; c++) {	//[0][0] has already been set					
 					if (r == 0 && c == 0) {
@@ -153,15 +152,18 @@ public class Tester {
 							removeFromAllStudents(nextStudent, students);
 						}
 					}
+					if (studentCounter.size() == 0) {
+						displayClassroom(classroom);
+						return classroom;
+					}
 				}
 			}
-		}
-		displayClassroom(classroom);
-		return classroom;
+		
+			displayClassroom(classroom);
+			return classroom;
 	}
 	
 	private static void removeFromAllStudents(Student nextStudent, ArrayList<Student> students) {
-		System.out.println(nextStudent.getName());
 		String name = nextStudent.getName();
 		for (Student s : students) {
 
