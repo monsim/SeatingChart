@@ -11,6 +11,8 @@ public class Tester {
 
 	public static void main(String[] args) {
 		
+		//PROBLEM: we remove all possible students at the end of seating chart because we wanted them to 
+		//not be placed multiple times in the same classroom, but generateChartAgain doesn't work now.
 		
 		ArrayList<String> studentList = new ArrayList<String>();
 		String fileName = JOptionPane.showInputDialog("What is the file name of the students?");
@@ -94,7 +96,7 @@ public class Tester {
 		Student nextStudent = null;
 												//WHAT DO WE DO IF THERES NO STUDENT IN COMMMON
 			for (int r = 0; r < rows; r++) {
-				for (int c = 0; c < cols; c++) {	//[0][0] has already been set					
+				for (int c = 0; c < cols; c++) {						
 					if (r == 0 && c == 0) {
 						firstStudentIndex = (int)Math.random()*(students.size());
 						firstStudent = students.get(firstStudentIndex);
@@ -103,25 +105,15 @@ public class Tester {
 						studentCounter.remove(firstStudent);
 						removeFromAllStudents(firstStudent, students);
 					} else {
-						if (r != 0) {
-							//someone above 
+						if (r != 0) { 
 							previousStudent = classroom[r-1][c];
-							//System.out.println(previousStudent.getName());
 							nextStudent = findNextStudent(previousStudent, students);
 							if (nextStudent.equals(null)) {
 								displayClassroom(classroom);
 								return classroom;
 							}
-							//System.out.println(nextStudent.getName());
 							if (c != 0) { //someone to the left as well
 								Student left = classroom[r][c-1];
-								
-							
-								
-								//System.out.println(left.getName());
-								
-								//System.out.println("r: " + r + " c-1: " + (c-1));
-								
 								while (!inArrayList(left, nextStudent, students)) {
 									nextStudent = findNextStudent(previousStudent, students);
 									if (nextStudent.equals(null)) {
@@ -149,8 +141,6 @@ public class Tester {
 						if (r == 0) {
 							//below hasn't been initialized, it doesn't matter. only one that matters is to the left
 							previousStudent = classroom[r][c-1];
-							//System.out.println(previousStudent.getName());
-							
 							nextStudent = findNextStudent(previousStudent, students);
 							if (nextStudent.equals(null)) {
 								displayClassroom(classroom);
@@ -192,7 +182,6 @@ public class Tester {
 	
 
 	private static boolean inArrayList(Student left, Student nextStudent, ArrayList<Student> students) {
-		//System.out.println(left.getName());
 		ArrayList<String> otherStudents = left.getPossibleStudents();
 		for (String s : otherStudents) {
 			if (s.equals(nextStudent.getName())) {
