@@ -5,6 +5,7 @@ import java.util.Scanner;
 import javax.swing.JOptionPane;
 
 //C:\\Users\\mmagal203\\Desktop\\names.txt
+//C:\\Users\\Gauri\\Desktop\\names.txt
 
 public class Tester {
 
@@ -68,8 +69,16 @@ public class Tester {
 
 	}
 
-	private static void generateChartAgain(int rows, int cols, ArrayList<Student> students, Student[][] classroom) {
-		
+	private static Student[][] generateChartAgain(int rows, int cols, ArrayList<Student> students, Student[][] classroom) {
+		ArrayList<Student> newSet = new ArrayList<Student>();
+		Student[][] newClassroom = new Student[rows][cols];
+		for (int r = 0; r < classroom.length; r++) {
+			for (int c = 0; c < classroom[0].length; c++) {
+				newSet.add(classroom[r][c]);
+			}
+		}
+		newClassroom = generateChart(rows,cols,newSet);
+		return newClassroom;
 	}
 
 	private static Student[][] generateChart(int rows, int cols, ArrayList<Student> students) {
@@ -166,7 +175,6 @@ public class Tester {
 	private static void removeFromAllStudents(Student nextStudent, ArrayList<Student> students) {
 		String name = nextStudent.getName();
 		for (Student s : students) {
-
 			s.removeStudent(name);
 		}
 	}
@@ -174,7 +182,9 @@ public class Tester {
 	public static void displayClassroom(Student[][] grid) {
 		for (int r = 0; r < grid.length; r++) {
 			for (int c = 0; c < grid[0].length; c++) {
-				System.out.print(grid[r][c] + " ; row = " + r + "; c = " + c);
+				int row = r + 1;
+				int col = c + 1;
+				System.out.print(grid[r][c] + " ; row = " + row + "; c = " + col);
 			}
 			System.out.println();
 		}
