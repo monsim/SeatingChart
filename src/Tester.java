@@ -11,11 +11,6 @@ public class Tester {
 
 	public static void main(String[] args) {
 
-		// PROBLEM: we remove all possible students at the end of seating chart
-		// because we wanted them to
-		// not be placed multiple times in the same classroom, but
-		// generateChartAgain doesn't work now.
-
 		ArrayList<String> studentList = new ArrayList<String>();
 		//String fileName = JOptionPane.showInputDialog("What is the file name of the students?");
 		String fileName = "C:\\Users\\mmagal203\\Desktop\\names.txt";
@@ -70,14 +65,17 @@ public class Tester {
 
 	private static Student[][] generateChartAgain(int rows, int cols, Student[][] classroom) {
 		ArrayList<Student> newSet = new ArrayList<Student>();
-		
+		System.out.println("checkpoint 1");
 		Student[][] newClassroom = new Student[rows][cols];
+		System.out.println("checkpoint 2");
 		for (int r = 0; r < classroom.length; r++) {
 			for (int c = 0; c < classroom[0].length; c++) {
-				newSet.add(classroom[r][c]);
+				if (classroom[r][c] != null){
+					System.out.println("checkpoint 3");
+					newSet.add(classroom[r][c]);
+				}
 			}
-		}
-		
+		}		
 		newClassroom = generateChart(rows, cols, newSet);
 		return newClassroom;
 	}
@@ -143,7 +141,7 @@ public class Tester {
 						// only one that matters is to the left
 						previousStudent = classroom[r][c - 1];
 						nextStudent = findNextStudent(previousStudent, students);
-						if (nextStudent.equals(null)) {
+						if (nextStudent == null) {
 							return endMethod(students, classroom);
 						}
 						classroom[r][c] = nextStudent; // remove nextStudent from previousStudent's arrayList
@@ -173,10 +171,18 @@ public class Tester {
 	}
 
 	private static void removeFromAllStudents(Student nextStudent, ArrayList<Student> students) {
+		System.out.println("NEXTSTUDENT: " + nextStudent);
 		String name = nextStudent.getName();
-		for (Student s : students) {
-			if (s.getPossibleStudents().contains(name)) {
-				s.removeStudent(name);
+		if (students.size() > 0) {
+			for (Student s : students) {
+				System.out.println("S: " + s);
+				ArrayList<String> studentList = s.getPossibleStudents();
+				System.out.println("STUDENTLIST: " + studentList);
+				System.out.println("NAME: " + name);
+				if (s.getPossibleStudents().contains(name)) {
+					s.removeStudent(name);
+				}
+				
 			}
 		}
 	}
