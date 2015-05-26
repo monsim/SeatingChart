@@ -5,7 +5,8 @@ import java.util.ArrayList;
 public class Student {
 	
 	//HashMap<String, ArrayList<String>> otherStudents;
-	ArrayList<String> studentList;
+	ArrayList<String> studentListWithRemoval;
+	ArrayList<String> studentListWithout;
 	
 	String name;
 
@@ -16,7 +17,7 @@ public class Student {
 		}
 
 		temp.remove(name);
-		studentList = temp;
+		studentListWithRemoval = temp;
 		this.name = name;
 		
 		//System.out.println(name + " " + studentList.toString());
@@ -27,7 +28,11 @@ public class Student {
 	}
 	
 	public ArrayList<String> getPossibleStudents() {
-		return studentList;
+		return studentListWithRemoval;
+	}
+	
+	public ArrayList<String> getPossibleStudents1() {
+		return studentListWithout;
 	}
 	
 	public String toString() {
@@ -35,7 +40,11 @@ public class Student {
 	}
 	
 	public void removeStudent(String student) {
-		studentList.remove(student);
+		studentListWithRemoval.remove(student);
+	}
+	
+	public void removeStudentFromWithout(String student) {
+		studentListWithout.remove(student);
 	}
 
 }
