@@ -17,8 +17,8 @@ public class Tester {
 		// generateChartAgain doesn't work now.
 
 		ArrayList<String> studentList = new ArrayList<String>();
-		String fileName = JOptionPane.showInputDialog("What is the file name of the students?");
-
+		//String fileName = JOptionPane.showInputDialog("What is the file name of the students?");
+		String fileName = "C:\\Users\\mmagal203\\Desktop\\names.txt";
 		loadDataFromFile(fileName, studentList);
 
 		ArrayList<Student> students = convertToStudents(studentList);
@@ -70,12 +70,14 @@ public class Tester {
 
 	private static Student[][] generateChartAgain(int rows, int cols, Student[][] classroom) {
 		ArrayList<Student> newSet = new ArrayList<Student>();
+		
 		Student[][] newClassroom = new Student[rows][cols];
 		for (int r = 0; r < classroom.length; r++) {
 			for (int c = 0; c < classroom[0].length; c++) {
 				newSet.add(classroom[r][c]);
 			}
 		}
+		
 		newClassroom = generateChart(rows, cols, newSet);
 		return newClassroom;
 	}
@@ -109,41 +111,30 @@ public class Tester {
 						previousStudent = classroom[r - 1][c];
 						nextStudent = findNextStudent(previousStudent, students);
 						if (nextStudent.equals(null)) {
-							displayClassroom(classroom);
-							return classroom;
+							return endMethod(students, classroom);
 						}
 						if (c != 0) { // someone to the left as well
 							Student left = classroom[r][c - 1];
 							while (!inArrayList(left, nextStudent, students)) {
 								nextStudent = findNextStudent(previousStudent, students);
 								if (nextStudent.equals(null)) {
-									displayClassroom(classroom);
-									return classroom;
+									return endMethod(students, classroom);
 								}
 							}
 							classroom[r][c] = nextStudent; // remove nextStudent from previousStudent's and left's arrayList
 							studentCounter.remove(nextStudent);
-							removeFromAllStudents(nextStudent, students);
-							String name = left.getName();
-							String name1 = previousStudent.getName();
-							nextStudent.removeStudentFromWithout(name);
-							nextStudent.removeStudentFromWithout(name1);
-							
-							
+							removeFromAllStudents(nextStudent, students);						
 						}
 						if (c == 0) {
 							previousStudent = classroom[r - 1][c];
-							nextStudent = findNextStudent(previousStudent,
-									students);
+							nextStudent = findNextStudent(previousStudent, students);
 							if (nextStudent.equals(null)) {
-								displayClassroom(classroom);
-								return classroom;
+								return endMethod(students, classroom);
 							}
 							classroom[r][c] = nextStudent;
 							studentCounter.remove(nextStudent);
 							removeFromAllStudents(nextStudent, students);
-							String name1 = previousStudent.getName();
-							nextStudent.removeStudentFromWithout(name1);
+						
 						}
 					}
 
@@ -153,37 +144,40 @@ public class Tester {
 						previousStudent = classroom[r][c - 1];
 						nextStudent = findNextStudent(previousStudent, students);
 						if (nextStudent.equals(null)) {
-							displayClassroom(classroom);
-							return classroom;
+							return endMethod(students, classroom);
 						}
 						classroom[r][c] = nextStudent; // remove nextStudent from previousStudent's arrayList
-						System.out.println(previousStudent.getName());
 						studentCounter.remove(nextStudent);
-						removeFromAllStudents(nextStudent, students);
-						String name1 = previousStudent.getName();
-						System.out.println(previousStudent.getName());
-						System.out.println(nextStudent.getName());
-						if (nextStudent.getPossibleStudents1().contains(previousStudent.getName())) {
-							nextStudent.removeStudentFromWithout(name1);
-						}
-						
+						removeFromAllStudents(nextStudent, students);			
 					}
 				}
 				if (studentCounter.size() == 0) {
-					displayClassroom(classroom);
-					return classroom;
+					return endMethod(students, classroom);
 				}
 			}
 		}
 
 		displayClassroom(classroom);
+		for (Student s : students) {
+			s.setEqualArrays();
+		}
 		return classroom;
+	}
+
+	private static Student[][] endMethod(ArrayList<Student> students, Student[][] classroom) {		
+		displayClassroom(classroom);
+		for (Student s : students) {
+			s.setEqualArrays();
+		}
+		return classroom;	
 	}
 
 	private static void removeFromAllStudents(Student nextStudent, ArrayList<Student> students) {
 		String name = nextStudent.getName();
 		for (Student s : students) {
-			s.removeStudent(name);
+			if (s.getPossibleStudents().contains(name)) {
+				s.removeStudent(name);
+			}
 		}
 	}
 
@@ -192,8 +186,7 @@ public class Tester {
 			for (int c = 0; c < grid[0].length; c++) {
 				int row = r + 1;
 				int col = c + 1;
-				System.out.print(grid[r][c] + " ; row = " + row + "; col = "
-						+ col);
+				System.out.print("\t" + grid[r][c] + " ; r=" + row + "; c="+ col);
 			}
 			System.out.println();
 		}

@@ -18,6 +18,7 @@ public class Student {
 
 		temp.remove(name);
 		studentListWithRemoval = temp;
+		studentListWithout = temp;
 		this.name = name;
 		
 		//System.out.println(name + " " + studentList.toString());
@@ -47,4 +48,13 @@ public class Student {
 		studentListWithout.remove(student);
 	}
 
+	
+	public void setEqualArrays() {
+		for (int i = 0; i < studentListWithRemoval.size(); i++) {
+			studentListWithRemoval.remove(i);
+		}
+		for (int i = 0; i < studentListWithout.size(); i++) {
+			studentListWithRemoval.add(studentListWithout.get(i));
+		}
+	}
 }
