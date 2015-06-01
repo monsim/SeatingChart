@@ -1,10 +1,7 @@
 import java.util.ArrayList;
 
-
-
 public class Student {
 	
-	//HashMap<String, ArrayList<String>> otherStudents;
 	ArrayList<String> studentListWithRemoval;
 	ArrayList<String> studentListWithout;
 	
@@ -20,8 +17,6 @@ public class Student {
 		studentListWithRemoval = temp;
 		studentListWithout = temp;
 		this.name = name;
-		
-		//System.out.println(name + " " + studentList.toString());
 	}
 	
 	public String getName() {

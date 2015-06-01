@@ -12,8 +12,7 @@ public class Tester {
 	public static void main(String[] args) {
 
 		ArrayList<String> studentList = new ArrayList<String>();
-		//String fileName = JOptionPane.showInputDialog("What is the file name of the students?");
-		String fileName = "C:\\Users\\mmagal203\\Desktop\\names.txt";
+		String fileName = JOptionPane.showInputDialog("What is the file name of the students?");
 		loadDataFromFile(fileName, studentList);
 
 		ArrayList<Student> students = convertToStudents(studentList);
@@ -90,9 +89,6 @@ public class Tester {
 		}
 		Student previousStudent = null;
 		Student nextStudent = null;
-		
-		// WHAT DO WE DO IF THERES NO STUDENT IN COMMMON
-
 		for (int r = 0; r < rows; r++) {
 			for (int c = 0; c < cols; c++) {
 				if (r == 0 && c == 0) {
@@ -111,7 +107,7 @@ public class Tester {
 						if (nextStudent.equals(null)) {
 							return endMethod(students, classroom);
 						}
-						if (c != 0) { // someone to the left as well
+						if (c != 0) {
 							Student left = classroom[r][c - 1];
 							while (!inArrayList(left, nextStudent, students)) {
 								nextStudent = findNextStudent(previousStudent, students);
@@ -119,7 +115,7 @@ public class Tester {
 									return endMethod(students, classroom);
 								}
 							}
-							classroom[r][c] = nextStudent; // remove nextStudent from previousStudent's and left's arrayList
+							classroom[r][c] = nextStudent; 
 							studentCounter.remove(nextStudent);
 							removeFromAllStudents(nextStudent, students);						
 						}
@@ -137,14 +133,12 @@ public class Tester {
 					}
 
 					if (r == 0) {
-						// below hasn't been initialized, it doesn't matter.
-						// only one that matters is to the left
 						previousStudent = classroom[r][c - 1];
 						nextStudent = findNextStudent(previousStudent, students);
 						if (nextStudent == null) {
 							return endMethod(students, classroom);
 						}
-						classroom[r][c] = nextStudent; // remove nextStudent from previousStudent's arrayList
+						classroom[r][c] = nextStudent; 
 						studentCounter.remove(nextStudent);
 						removeFromAllStudents(nextStudent, students);			
 					}
@@ -175,10 +169,6 @@ public class Tester {
 		String name = nextStudent.getName();
 		if (students.size() > 0) {
 			for (Student s : students) {
-				System.out.println("S: " + s);
-				ArrayList<String> studentList = s.getPossibleStudents();
-				System.out.println("STUDENTLIST: " + studentList);
-				System.out.println("NAME: " + name);
 				if (s.getPossibleStudents().contains(name)) {
 					s.removeStudent(name);
 				}
